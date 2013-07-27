@@ -216,6 +216,8 @@ class Minitest::Spec < Minitest::Test
       name
     end
 
+    alias_method :t, :it
+
     ##
     # Essentially, define an accessor for +name+ with +block+.
     #
