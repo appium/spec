@@ -55,25 +55,10 @@ module Minitest
     end
 
     ##
-    # Returns all instance methods starting with "test_". Based on
-    # #test_order, the methods are either sorted, randomized
-    # (default), or run in parallel.
+    # Returns all instance methods starting with "test_".
 
     def self.runnable_methods
-      methods = methods_matching(/^test_/)
-
-      case self.test_order
-      when :parallel
-        max = methods.size
-        ParallelEach.new methods.sort.sort_by { rand max }
-      when :random then
-        max = methods.size
-        methods.sort.sort_by { rand max }
-      when :alpha, :sorted then
-        methods.sort
-      else
-        raise "Unknown test_order: #{self.test_order.inspect}"
-      end
+      methods_matching(/^test_/)
     end
 
     ##
