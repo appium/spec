@@ -1,7 +1,7 @@
 # encoding: utf-8
 
 require 'rubygems'
-require 'minitest'
+require 'minitest' # not 'minitest'
 require 'minitest/autorun'
 
 def p msg

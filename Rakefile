@@ -123,15 +123,20 @@ task :dev do
   sh 'gem install --no-rdoc --no-ri redcarpet'
 end
 
+desc 'Install gem'
+task :b_install => [ :b_gem, :uninstall ] do
+  sh "gem install --no-rdoc --no-ri --local #{repo_name}-#{version}.gem"
+end
+
 desc 'Build a new gem'
-task :bootstraponline_gem do
+task :b_gem do
   `chmod 0600 ~/.gem/credentials`
   sh "gem build #{repo_name}.gemspec"
 end
 
 # Inspired by Gollum's Rakefile
 desc 'Build and release a new gem to rubygems.org'
-task :rel => :bootstraponline_gem do
+task :rel => :b_gem do
   unless `git branch`.include? '* master'
     puts 'Master branch required to release.'
     exit!
