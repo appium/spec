@@ -4,3 +4,4 @@ A modified minitest for Appium.
 
 
 - `rake b_install` - Uninstall old spc, build spec, install new spec.
+- `rake rel` - Release new `spec` to GitHub and RubyGems.
