@@ -3,7 +3,6 @@
 require 'rubygems'
 require 'stringio' # stdlib
 require 'spec' # not 'minitest'
-require 'minitest/spec'
 
 class MiniTest::Spec
   @@output = StringIO.new
