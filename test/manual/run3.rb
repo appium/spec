@@ -6,11 +6,11 @@ require 'spec' # not 'minitest'
 
 class MiniTest::Spec
   @@output = StringIO.new
-  
+
   def self.output
     @@output
   end
-  
+
   def p msg
     @@output.puts msg
   end
@@ -53,9 +53,11 @@ out = MiniTest::Spec.output
 reporter = Minitest::CompositeReporter.new
 reporter << Minitest::SummaryReporter.new(out, options)
 reporter << Minitest::ProgressReporter.new(out, options)
+#reporter.start
 
 Minitest.__run reporter, options
 
+#reporter.report
 out.flush
 out.rewind
 
