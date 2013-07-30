@@ -262,14 +262,25 @@ module Minitest
         filter === m || filter === "#{self}##{m}"
       }
 
-      with_info_handler reporter do
-        filtered_methods.each do |method_name|
-          result = self.new(method_name).run
-          raise "#{self}#run _must_ return self" unless self === result
-          reporter.record result
+      # before_first
+      method_instance = self.new(filtered_methods.first)
+      method_instance.before_first_method
+      begin
+        with_info_handler reporter do
+          filtered_methods.each do |method_name|
+            result = self.new(method_name).run
+            raise "#{self}#run _must_ return self" unless self === result
+            reporter.record result
+          end
         end
+      ensure
+        # after_last
+        method_instance.after_last_method
       end
     end
+
+    def before_first_method; end
+    def after_last_method; end
 
     def self.with_info_handler reporter, &block # :nodoc:
       handler = lambda do

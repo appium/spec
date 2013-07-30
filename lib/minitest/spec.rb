@@ -174,6 +174,20 @@ class Minitest::Spec < Minitest::Test
       end
     end
 
+    def after_last &block
+      define_method 'after_last_method' do
+        self.instance_eval &block
+        super()
+      end
+    end
+
+    def before_first &block
+      define_method 'before_first_method' do
+        self.instance_eval &block
+        super()
+      end
+    end
+
     ##
     # Define an 'after' action. Inherits the way normal methods should.
     #
