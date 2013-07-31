@@ -5,13 +5,10 @@ require 'stringio' # stdlib
 require 'spec' # not 'minitest'
 
 describe 'a' do
-  t('') { p 1 }
+  t('') { puts 1 }
   t('') { 1.must_equal 2 }
-  t('') { p 3 }
-  t('') { p 4 }
+  t('') { puts 3 }
+  t('') { puts 4 }
 end
 
-begin
-Minitest.run
-rescue Exception => e
-end
+Minitest.run_specs

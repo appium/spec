@@ -130,6 +130,24 @@ module Minitest
     end
   end
 
+  ##
+  # Run specs. Don't use minitest/auto or exceptions won't raise correctly.
+
+  def self.run_specs
+    options = { :io => $stdout }
+    reporter = Minitest::CompositeReporter.new
+    reporter << Minitest::ProgressReporter.new(options[:io], options)
+    reporter << Minitest::SummaryReporter.new(options[:io], options)
+    reporter.start
+
+    begin
+      Minitest.__run reporter, options
+      reporter.reporters.each { |r| r.report }
+    rescue Minitest::Runnable::ExitAfterFirstFail
+      # Minitest calls .report on exception
+    end
+  end
+
   def self.process_args args = [] # :nodoc:
     options = {
                :io => $stdout,
