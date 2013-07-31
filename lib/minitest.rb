@@ -269,6 +269,16 @@ module Minitest
 
     class ExitAfterFirstFail < RuntimeError; end
 
+    def self.check_failures result, reporter
+      if !result.failures.empty?
+        begin
+          reporter.reporters.each { |r| r.report }
+        ensure
+          raise ExitAfterFirstFail
+        end
+      end
+    end
+
     ##
     # Responsible for running all runnable methods in a given class,
     # each in its own instance. Each instance is passed to the
@@ -282,27 +292,44 @@ module Minitest
         filter === m || filter === "#{self}##{m}"
       }
 
-      # before_first
-      method_instance = self.new(filtered_methods.first)
-      method_instance.before_first_method
       begin
+        # before_first
+        method1 = self.new(filtered_methods.first)
+        # run method and capture exceptions.
+        method1.capture_exceptions do
+          method1.before_first_method
+        end
+        # save exceptions to reporter and check for failures
         with_info_handler reporter do
+          # only record if failures not empty, otherwise
+          # the count (runs) are messed up. each call to .record
+          # increases count by one.
+          if !method1.failures.empty?
+            reporter.record method1
+            check_failures method1, reporter
+          end
+
+          # run the other methods
           filtered_methods.each do |method_name|
             result = self.new(method_name).run
             raise "#{self}#run _must_ return self" unless self === result
             reporter.record result
-            if ! result.failures.empty?
-              begin
-                reporter.reporters.each { |r| r.report }
-              ensure
-                raise ExitAfterFirstFail
-              end
-            end
+            check_failures result, reporter
           end
         end
-      ensure
+      ensure # ensure after last runs
         # after_last
-        method_instance.after_last_method
+        # init method1 again
+        method1 = self.new(filtered_methods.first)
+        method1.capture_exceptions do
+          method1.after_last_method
+        end
+        with_info_handler reporter do
+          if !method1.failures.empty?
+            reporter.record method1
+            check_failures method1, reporter
+          end
+        end
       end
     end
 

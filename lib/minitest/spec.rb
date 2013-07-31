@@ -174,17 +174,17 @@ class Minitest::Spec < Minitest::Test
       end
     end
 
-    def after_last &block
+    def after_last type = nil, &block
       define_method 'after_last_method' do
-        self.instance_eval &block
         super()
+        self.instance_eval(&block)
       end
     end
 
-    def before_first &block
+    def before_first type = nil, &block
       define_method 'before_first_method' do
-        self.instance_eval &block
         super()
+        self.instance_eval(&block)
       end
     end
 
