@@ -273,7 +273,10 @@ module Minitest
             result = self.new(method_name).run
             raise "#{self}#run _must_ return self" unless self === result
             reporter.record result
-            raise ExitAfterFirstFail if ! result.failures.empty?
+            if ! result.failures.empty?
+              reporter.reporters.each { |r| r.report }
+              raise ExitAfterFirstFail
+            end
           end
         end
       ensure

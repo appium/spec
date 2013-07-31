@@ -35,10 +35,9 @@ reporter.start
 
 begin
   Minitest.__run reporter, options
-rescue Minitest::Test::ExitAfterFirstFail
+  reporter.reporters.each { |r| r.report }
+rescue Minitest::Runnable::ExitAfterFirstFail
 end
-
-reporter.report
 
 out.flush
 out.rewind
