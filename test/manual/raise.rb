@@ -53,7 +53,7 @@ Finished in 0s
   1) Error:
 a#test_0002_:
 RuntimeError: fail
-    fail.rb:22:in `block (2 levels) in <class:SpecTest>'
+    raise.rb:22:in `block (2 levels) in <class:SpecTest>'
 
 2 runs, 0 assertions, 0 failures, 1 errors, 0 skips
 EXP
