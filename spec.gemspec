@@ -1,5 +1,13 @@
 # encoding: utf-8
 
+def self.add_to_path path
+ path = File.expand_path "../#{path}/", __FILE__
+
+ $:.unshift path unless $:.include? path
+end
+
+add_to_path 'lib'
+
 require File.expand_path '../lib/minitest.rb', __FILE__
 
 Gem::Specification.new do |s|
