@@ -249,6 +249,8 @@ module Minitest
 
     reset
 
+    class ExitAfterFirstFail < RuntimeError; end
+
     ##
     # Responsible for running all runnable methods in a given class,
     # each in its own instance. Each instance is passed to the
@@ -271,6 +273,7 @@ module Minitest
             result = self.new(method_name).run
             raise "#{self}#run _must_ return self" unless self === result
             reporter.record result
+            raise ExitAfterFirstFail if ! result.failures.empty?
           end
         end
       ensure
@@ -517,11 +520,6 @@ module Minitest
     def start # :nodoc:
       super
 
-      io.puts "Run options: #{options[:args]}"
-      io.puts
-      io.puts "# Running:"
-      io.puts
-
       self.sync = io.respond_to? :"sync=" # stupid emacs
       self.old_sync, io.sync = io.sync, true if self.sync
     end
@@ -539,8 +537,7 @@ module Minitest
     end
 
     def statistics # :nodoc:
-      "Finished in %.6fs, %.4f runs/s, %.4f assertions/s." %
-        [total_time, count / total_time, assertions / total_time]
+      "Finished in %is" % [ total_time ]
     end
 
     def aggregated_results # :nodoc:
