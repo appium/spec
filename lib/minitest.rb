@@ -137,7 +137,6 @@ module Minitest
   def self.run_specs
     options = { :io => $stdout }
     reporter = Minitest::CompositeReporter.new
-    reporter << Minitest::ProgressReporter.new(options[:io], options)
     reporter << Minitest::SummaryReporter.new(options[:io], options)
     reporter.start
 
