@@ -124,7 +124,7 @@ task :dev do
 end
 
 desc 'Install gem'
-task :b_install => [ :b_gem, :uninstall ] do
+task :install => [ :b_gem, :uninstall ] do
   sh "gem install --no-rdoc --no-ri --local #{repo_name}-#{version}.gem"
 end
 

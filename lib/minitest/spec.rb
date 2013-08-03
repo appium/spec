@@ -12,7 +12,7 @@ module Minitest
     attr_reader :ruby_parser, :ruby2ruby
   end
 
-  # @param source [Block] block.source
+  # @param source [String] block.source
   # @return [String] the rewritten source
   def self._rewrite_dsl source
     # We need to extract the method body before rewriting the source.
@@ -25,7 +25,6 @@ module Minitest
     sexp.unshift :block
     source = ruby2ruby.process sexp
 
-    # array to string
     Minitest::_rewrite_source source
   end
 
@@ -280,7 +279,9 @@ class Minitest::Spec < Minitest::Test
 
       name = "test_%04d_%s" % [ @specs, desc ]
 
-      define_method name, &block
+      define_method name do
+        self.instance_eval Minitest::_rewrite_dsl block.source
+      end
 
       self.children.each do |mod|
         mod.send :undef_method, name if mod.public_method_defined? name

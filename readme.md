@@ -2,5 +2,5 @@
 
 A modified [MiniTest](https://github.com/seattlerb/minitest) for Appium.
 
-- `rake b_install` - Uninstall old gem, build gem, install new gem.
+- `rake install` - Uninstall old gem, build gem, install new gem.
 - `rake rel` - Release new `spec` to GitHub and RubyGems.
