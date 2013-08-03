@@ -28,18 +28,18 @@ module Minitest
     Minitest::_rewrite_source source
   end
 
-  # @param lines [String] contains the center lines,
+  # @param source [String] contains the center lines,
   # after the first and last
   # line have been removed.
   # @return [String] the center lines rewritten with puts
-  def self._rewrite_source lines
+  def self._rewrite_source source
     carry_over = ''
     carry_over_puts = ''
-    lines = lines.split "\n"
+    lines = source.split "\n"
     lines.map do |line|
       printed_line = line.strip
       # transform \n into \\n so it's printed properly by puts
-      printed_line = printed_line.gsub /\\/, '\\' * 4
+      printed_line = printed_line.gsub(/\\/, '\\' * 4)
       result = "puts %(#{printed_line})\n#{line}"
 
       begin
