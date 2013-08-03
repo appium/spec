@@ -1,4 +1,5 @@
 require "optparse"
+require 'chronic_duration'
 
 ##
 # :include: README.txt
@@ -588,7 +589,7 @@ module Minitest
     end
 
     def statistics # :nodoc:
-      "Finished in %is" % [ total_time ]
+      "Finished in #{ChronicDuration.output(total_time.round) || '0s'}"
     end
 
     def aggregated_results # :nodoc:

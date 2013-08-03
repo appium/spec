@@ -26,6 +26,10 @@ Gem::Specification.new do |s|
   s.extra_rdoc_files = %w[History.txt Manifest.txt README.txt]
   s.rdoc_options << '--main' << 'README.txt'
   s.test_files = Dir.glob 'test/minitest/test_*.rb'
+
+  s.add_runtime_dependency 'ruby2ruby', '~> 2.0.6'
+  s.add_runtime_dependency 'chronic_duration', '~> 0.10.2'
+
   s.add_development_dependency 'hoe', '~> 3.7'
   s.add_development_dependency 'rdoc', '~> 4.0'
 
