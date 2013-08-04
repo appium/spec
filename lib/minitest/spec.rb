@@ -248,7 +248,7 @@ class Minitest::Spec < Minitest::Test
 
     def after type = nil, &block
       define_method :teardown do
-        self.instance_eval(&block)
+        super()
         self.instance_eval Minitest::_rewrite_dsl block.source
       end
     end
