@@ -1,5 +1,6 @@
 require "minitest/autorun"
 require "minitest/metametameta"
+require 'minitest/test_helper'
 
 class TestMinitestReporter < Minitest::Test
 

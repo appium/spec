@@ -1,4 +1,5 @@
 require 'minitest/autorun'
+require 'minitest/test_helper'
 
 class TestMinitestMock < Minitest::Test
   parallelize_me!

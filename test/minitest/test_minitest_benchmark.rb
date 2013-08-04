@@ -1,5 +1,6 @@
 require 'minitest/autorun'
 require 'minitest/benchmark'
+require 'minitest/test_helper'
 
 ##
 # Used to verify data:

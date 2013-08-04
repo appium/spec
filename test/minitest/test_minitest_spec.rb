@@ -1,6 +1,7 @@
 # encoding: utf-8
 require "minitest/autorun"
 require "stringio"
+require 'minitest/test_helper'
 
 class MiniSpecA < Minitest::Spec; end
 class MiniSpecB < Minitest::Test; extend Minitest::Spec::DSL; end
