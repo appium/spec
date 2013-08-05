@@ -1,3 +1,9 @@
+#### v5.0.12 2013-08-05
+
+- [068adc4](https://github.com/bootstraponline/spec/commit/068adc41623e97981a5c80cf9c76bcb238b0dd46) Release 5.0.12
+- [85460e5](https://github.com/bootstraponline/spec/commit/85460e58dbf95a9333771a3b508fc04c244ed057) Add method_source
+
+
 #### v5.0.11 2013-08-05
 
 - [2f64c6d](https://github.com/bootstraponline/spec/commit/2f64c6d65882f63f2cc2e19c83127bf8de957e5a) Release 5.0.11
