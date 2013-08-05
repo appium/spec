@@ -31,10 +31,8 @@ module Minitest
     Minitest::_rewrite_source source
   end
 
-  # @param source [String] contains the center lines,
-  # after the first and last
-  # line have been removed.
-  # @return [String] the center lines rewritten with puts
+  # @param source [String] contains the method body
+  # @return [String] the method body rewritten with puts
   def self._rewrite_source source
     carry_over = ''
     carry_over_puts = ''

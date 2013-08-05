@@ -132,7 +132,7 @@ module Minitest
   end
 
   ##
-  # Run specs. Don't use minitest/auto or exceptions won't raise correctly.
+  # Run specs. Does not print dots (ProgressReporter)
 
   def self.run_specs
     options = { :io => $stdout }
