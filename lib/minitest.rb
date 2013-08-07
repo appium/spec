@@ -5,8 +5,8 @@ require 'chronic_duration'
 # :include: README.txt
 
 module Minitest
-  VERSION = '5.0.12' # :nodoc:
-  DATE = '2013-08-05' # :nodoc:
+  VERSION = '5.0.13' # :nodoc:
+  DATE = '2013-08-07' # :nodoc:
 
   @@installed_at_exit ||= false
   @@after_run = []
@@ -139,7 +139,7 @@ module Minitest
   #
   # spec_opts = {}
   #
-  # @param :files [Array<String>] the files to trace
+  # @param :trace [Array<String>] the files to trace
   # @param :io [IO] io to print to
   def self.trace_specs spec_opts
     # ensure trace is set once
@@ -149,7 +149,7 @@ module Minitest
     targets = []
     files = {}
 
-    files_to_trace = spec_opts.fetch(:files, []);
+    files_to_trace = spec_opts.fetch(:trace, []);
     io = spec_opts.fetch(:io, $stdout)
     # target only existing readable files
     files_to_trace.each { |f| targets.push(f) if File.exists?(f) && File
@@ -172,8 +172,8 @@ module Minitest
   # Run specs. Does not print dots (ProgressReporter)
   #
   # spec_opts
-  # :io - defaults to $stdout
-  # :files - files to trace
+  # @param :io [Array<String>] defaults to $stdout
+  # @param :trace [Array<String>] files to trace
 
   def self.run_specs spec_opts={}
     options = { :io => spec_opts.fetch(:io, $stdout) }
@@ -192,9 +192,7 @@ module Minitest
   end
 
   def self.process_args args = [] # :nodoc:
-    options = {
-               :io => $stdout,
-              }
+    options = { :io => $stdout }
     orig_args = args.dup
 
     OptionParser.new do |opts|

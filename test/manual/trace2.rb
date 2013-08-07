@@ -12,4 +12,4 @@ describe 'a' do
 end
 
 # Run specs and trace this file
-Minitest.run_specs({ :files => [__FILE__] })
+Minitest.run_specs({ :trace => [__FILE__] })
