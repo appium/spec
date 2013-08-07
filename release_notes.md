@@ -1,3 +1,9 @@
+#### v5.0.13 2013-08-07
+
+- [c401d7c](https://github.com/bootstraponline/spec/commit/c401d7cad546351f63ad62b17387643ce1b19b14) Release 5.0.13
+- [f94221a](https://github.com/bootstraponline/spec/commit/f94221a3d3765c3884b76e320c479c901b39bcbb) Use set_trace_func instead of ruby2ruby
+
+
 #### v5.0.12 2013-08-05
 
 - [068adc4](https://github.com/bootstraponline/spec/commit/068adc41623e97981a5c80cf9c76bcb238b0dd46) Release 5.0.12
