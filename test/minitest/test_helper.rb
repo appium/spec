@@ -4,13 +4,6 @@ class Minitest::Runnable
   end
 end
 
-# Disable source rewriting
-module Minitest
-  def self._rewrite_source source
-    source
-  end
-end
-
 # Restore summary reporter's output
 class Minitest::SummaryReporter < Minitest::StatisticsReporter
   def start # :nodoc:

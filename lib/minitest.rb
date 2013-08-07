@@ -31,6 +31,9 @@ module Minitest
 
   mc.send :attr_accessor, :extensions
 
+  @@trace_set = false
+  mc.send :attr_accessor, :trace_set
+
   ##
   # Registers Minitest to run at process exit
 
@@ -132,13 +135,53 @@ module Minitest
   end
 
   ##
-  # Run specs. Does not print dots (ProgressReporter)
+  # Trace file source to :io (default $stdout)
+  #
+  # spec_opts = {}
+  #
+  # @param :files [Array<String>] the files to trace
+  # @param :io [IO] io to print to
+  def self.trace_specs spec_opts
+    # ensure trace is set once
+    return if trace_set
+    self.trace_set = true
 
-  def self.run_specs
-    options = { :io => $stdout }
+    targets = []
+    files = {}
+
+    files_to_trace = spec_opts.fetch(:files, []);
+    io = spec_opts.fetch(:io, $stdout)
+    # target only existing readable files
+    files_to_trace.each { |f| targets.push(f) if File.exists?(f) && File
+    .readable?(f) }
+    return if targets.empty?
+
+    set_trace_func(lambda do |event, file, line, id, binding, classname|
+      return unless targets.include? file
+
+      file_sym = file.intern
+      files[file_sym] = IO.readlines(file) if files[file_sym].nil?
+      lines = files[file_sym]
+
+      # arrays are 0 indexed and line numbers start at one.
+      io.puts lines[ line - 1]
+    end)
+  end
+
+  ##
+  # Run specs. Does not print dots (ProgressReporter)
+  #
+  # spec_opts
+  # :io - defaults to $stdout
+  # :files - files to trace
+
+  def self.run_specs spec_opts={}
+    options = { :io => spec_opts.fetch(:io, $stdout) }
     reporter = Minitest::CompositeReporter.new
     reporter << Minitest::SummaryReporter.new(options[:io], options)
     reporter.start
+
+    trace_specs spec_opts
 
     begin
       Minitest.__run reporter, options

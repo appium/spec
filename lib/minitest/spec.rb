@@ -1,65 +1,6 @@
 #!/usr/bin/ruby -w
 
 require 'minitest/unit'
-require 'method_source' # for .source https://github.com/banister/method_source
-require 'ruby_parser'
-require 'ruby2ruby' # https://github.com/seattlerb/ruby2ruby
-
-module Minitest
-  @ruby_parser = RubyParser.new
-  @ruby2ruby = Ruby2Ruby.new
-  class << self
-    attr_reader :ruby_parser, :ruby2ruby
-  end
-
-  # @param source [String] block.source
-  # @return [String] the rewritten source
-  def self._rewrite_dsl source
-    # We need to extract the method body before rewriting the source.
-    sexp = ruby_parser.process source
-
-    # remove type [0], method info [1], and args [2] from start of sexp
-    sexp.shift 3
-
-    # it's now a block
-    sexp.unshift :block
-    source = ruby2ruby.process sexp
-
-    source = source[1..-2] if (source[0] == '(' && source[source.length-1] ==
-        ')')
-
-    Minitest::_rewrite_source source
-  end
-
-  # @param source [String] contains the method body
-  # @return [String] the method body rewritten with puts
-  def self._rewrite_source source
-    carry_over = ''
-    carry_over_puts = ''
-    lines = source.split "\n"
-    lines.map do |line|
-      printed_line = line.strip
-      # transform \n into \\n so it's printed properly by puts
-      printed_line = printed_line.gsub(/\\/, '\\' * 4)
-      result = "puts %(#{printed_line})\n#{line}"
-
-      begin
-        # ruby2ruby ensures there are no comments.
-        eval 'lambda {' + line + '}' if line
-        # Syntax is ok. prepend carry over
-        result = carry_over_puts + carry_over + "\n" + result
-        carry_over = ''
-        carry_over_puts = ''
-      rescue SyntaxError
-        # Invalid syntax, carry over next line
-        carry_over += "\n" + line
-        carry_over_puts += "\n" + "puts %(#{printed_line})"
-        result = ''
-      end
-      result
-    end.join "\n" # return a string
-  end
-end
 
 class Module # :nodoc:
   def infect_an_assertion meth, new_name, dont_flip = false # :nodoc:
@@ -219,6 +160,13 @@ class Minitest::Spec < Minitest::Test
       end
     end
 
+    def before_first type = nil, &block
+      define_method :before_first_method do
+        super()
+        self.instance_eval(&block)
+      end
+    end
+
     ##
     # Define a 'before' action. Inherits the way normal methods should.
     #
@@ -226,18 +174,7 @@ class Minitest::Spec < Minitest::Test
     #
     # Equivalent to Minitest::Test#setup.
 
-    def before_first type = nil, &block
-      new_src = Minitest::_rewrite_dsl block.source
-      block = eval "Proc.new { #{new_src} }", block.binding
-      define_method 'before_first_method' do
-        super()
-        self.instance_eval(&block)
-      end
-    end
-
     def before type = nil, &block
-      new_src = Minitest::_rewrite_dsl block.source
-      block = eval "Proc.new { #{new_src} }", block.binding
       define_method :setup do
         super()
         self.instance_eval(&block)
@@ -252,8 +189,6 @@ class Minitest::Spec < Minitest::Test
     # Equivalent to Minitest::Test#teardown.
 
     def after type = nil, &block
-      new_src = Minitest::_rewrite_dsl block.source
-      block = eval "Proc.new { #{new_src} }", block.binding
       define_method :teardown do
         self.instance_eval(&block)
         super()
@@ -261,9 +196,7 @@ class Minitest::Spec < Minitest::Test
     end
 
     def after_last type = nil, &block
-      new_src = Minitest::_rewrite_dsl block.source
-      block = eval "Proc.new { #{new_src} }", block.binding
-      define_method 'after_last_method' do
+      define_method :after_last_method do
         self.instance_eval(&block)
         super()
       end
@@ -281,26 +214,14 @@ class Minitest::Spec < Minitest::Test
     # and match between assertions and expectations as much as you want.
 
     def it desc = "anonymous", &block
-      skip = false
-      unless block
-        skip = true
-        block ||= proc { skip "(no tests defined)" }
-      end
+      block ||= proc { skip "(no tests defined)" }
 
       @specs ||= 0
       @specs += 1
 
       name = "test_%04d_%s" % [ @specs, desc ]
 
-      # don't rewrite skip
-      unless skip
-        new_src = Minitest::_rewrite_dsl block.source
-        block = eval "Proc.new { #{new_src} }", block.binding
-      end
-
-      define_method name do
-        self.instance_eval(&block)
-      end
+      define_method name, &block
 
       self.children.each do |mod|
         mod.send :undef_method, name if mod.public_method_defined? name
