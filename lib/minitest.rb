@@ -31,9 +31,6 @@ module Minitest
 
   mc.send :attr_accessor, :extensions
 
-  @@trace_set = false
-  mc.send :attr_accessor, :trace_set
-
   ##
   # Registers Minitest to run at process exit
 
@@ -142,10 +139,6 @@ module Minitest
   # @param :trace [Array<String>] the files to trace
   # @param :io [IO] io to print to
   def self.trace_specs spec_opts
-    # ensure trace is set once
-    return if trace_set
-    self.trace_set = true
-
     targets = []
     files = {}
     last_file = ''
