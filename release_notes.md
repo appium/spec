@@ -1,3 +1,9 @@
+#### v5.0.15 2013-08-07
+
+- [c1f227c](https://github.com/bootstraponline/spec/commit/c1f227ca8f2803d2fe4da8caf7106f8cdda206e6) Release 5.0.15
+- [df3f638](https://github.com/bootstraponline/spec/commit/df3f6387c4517962e53e577e980cbf9aed13eac9) Trace everytime run_specs is invoked
+
+
 #### v5.0.14 2013-08-07
 
 - [c5199e7](https://github.com/bootstraponline/spec/commit/c5199e7ae2578bb15a684210ba771d4db237121b) Release 5.0.14
