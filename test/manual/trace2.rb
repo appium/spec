@@ -5,10 +5,10 @@ require 'stringio' # stdlib
 require 'spec' # not 'minitest'
 
 describe 'a' do
-  t('') { 1 }
-  t('') { 2 }
-  t('') { 3 }
-  t('') { 4 }
+  t('b') { 1 }
+  t('c') { 2 }
+  t('d') { 3 }
+  t('e') { 4 }
 end
 
 # Run specs and trace this file

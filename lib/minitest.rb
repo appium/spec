@@ -331,6 +331,7 @@ module Minitest
     # reporter to record.
 
     def self.run reporter, options = {}
+      io = options.fetch :io, $stdout
       filter = options[:filter] || '/./'
       filter = Regexp.new $1 if filter =~ /\/(.*)\//
 
@@ -357,7 +358,22 @@ module Minitest
 
           # run the other methods
           filtered_methods.each do |method_name|
-            result = self.new(method_name).run
+            method = self.new(method_name)
+            matched_name = method_name.match /test_(\d+)_/
+            if matched_name
+              test_number = matched_name[1].to_i
+              test_name = method_name.split(/_\d+_/).last
+              file_path, line_number = method.method(method_name).source_location
+              # /5/4/3/2/1/test.rb => 2/1/test.rb
+              file_path = file_path.split(File::SEPARATOR).reject(&:empty?)
+              file_path = (file_path.length >= 3 ? file_path[-3..-1] :
+                  file_path).join(File::SEPARATOR)
+              # 36 = cyan, 0 = clear
+              test_output_title = "\e[36m#{test_name} | #{test_number} |" +
+                  "#{file_path}:#{line_number}\e[0m"
+              io.puts test_output_title
+            end
+            result = method.run
             raise "#{self}#run _must_ return self" unless self === result
             reporter.record result
             check_failures result, reporter
