@@ -1,3 +1,9 @@
+#### v5.0.16 2013-08-10
+
+- [01269eb](https://github.com/bootstraponline/spec/commit/01269eb8f6e6209c5de9f55a0735ce23935d995a) Release 5.0.16
+- [40504bb](https://github.com/bootstraponline/spec/commit/40504bbc92639baa24858a11f1ac931010980499) Print test name
+
+
 #### v5.0.15 2013-08-07
 
 - [c1f227c](https://github.com/bootstraponline/spec/commit/c1f227ca8f2803d2fe4da8caf7106f8cdda206e6) Release 5.0.15
