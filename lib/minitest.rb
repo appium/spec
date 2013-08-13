@@ -194,6 +194,15 @@ module Minitest
     rescue Minitest::Runnable::ExitAfterFirstFail
       # Minitest calls .report on exception
     end
+
+    # handle exit. code from self.autorun
+    at_exit {
+      next if $! and not $!.kind_of? SystemExit
+      at_exit {
+        @@after_run.reverse_each(&:call)
+        exit reporter.passed? || false
+      }
+    }
   end
 
   def self.process_args args = [] # :nodoc:
