@@ -1,3 +1,10 @@
+#### v5.0.18 2013-08-13
+
+- [60c70b0](https://github.com/bootstraponline/spec/commit/60c70b0ef6005a515086467c1af3a9faedfb4da3) Release 5.0.18
+- [c0ebada](https://github.com/bootstraponline/spec/commit/c0ebada0543fb3d11ceb441cf17da91566119c41) Invoke after_run on Ctrl + C
+- [630edb2](https://github.com/bootstraponline/spec/commit/630edb2b45f3948ca0d465f29e1c198050fe0fb5) Fix exit
+
+
 #### v5.0.17 2013-08-12
 
 - [605696d](https://github.com/bootstraponline/spec/commit/605696d4952c9a8b9107e3a338c8713d6f979d18) Release 5.0.17
