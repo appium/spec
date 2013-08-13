@@ -1,3 +1,9 @@
+#### v5.0.17 2013-08-12
+
+- [605696d](https://github.com/bootstraponline/spec/commit/605696d4952c9a8b9107e3a338c8713d6f979d18) Release 5.0.17
+- [6665bda](https://github.com/bootstraponline/spec/commit/6665bdab8c57a3ec19849df9098593e36203cb46) Fix after_run
+
+
 #### v5.0.16 2013-08-10
 
 - [01269eb](https://github.com/bootstraponline/spec/commit/01269eb8f6e6209c5de9f55a0735ce23935d995a) Release 5.0.16
