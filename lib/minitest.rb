@@ -197,11 +197,8 @@ module Minitest
 
     # handle exit. code from self.autorun
     at_exit {
-      next if $! and not $!.kind_of? SystemExit
-      at_exit {
-        @@after_run.reverse_each(&:call)
-        exit reporter.passed? || false
-      }
+      @@after_run.reverse_each(&:call)
+      exit reporter.passed? || false
     }
   end
 
