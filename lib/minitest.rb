@@ -173,6 +173,11 @@ module Minitest
     end)
   end
 
+  def self.on_exit exit_code
+    @@after_run.reverse_each(&:call)
+    exit exit_code || false
+  end
+
   ##
   # Run specs. Does not print dots (ProgressReporter)
   #
@@ -186,6 +191,10 @@ module Minitest
     reporter << Minitest::SummaryReporter.new(options[:io], options)
     reporter.start
 
+    at_exit { on_exit reporter.passed? }
+    # exit on ctrl+c to trigger at_exit
+    trap('SIGINT') { exit }
+
     trace_specs spec_opts
 
     begin
@@ -194,12 +203,6 @@ module Minitest
     rescue Minitest::Runnable::ExitAfterFirstFail
       # Minitest calls .report on exception
     end
-
-    # handle exit. code from self.autorun
-    at_exit {
-      @@after_run.reverse_each(&:call)
-      exit reporter.passed? || false
-    }
   end
 
   def self.process_args args = [] # :nodoc:
