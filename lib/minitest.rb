@@ -148,7 +148,8 @@ module Minitest
     io = spec_opts.fetch(:io, $stdout)
     color = spec_opts.fetch(:color, "\e[32m") # ANSI.green default
     # target only existing readable files
-    files_to_trace.each { |f| targets.push(f) if File.exists?(f) && File
+    files_to_trace.each { |f| targets.push(File.expand_path(f)) if File.exists?
+    (f) && File
     .readable?(f) }
     return if targets.empty?
 
