@@ -5,8 +5,8 @@ require 'chronic_duration'
 # :include: README.txt
 
 module Minitest
-  VERSION = '5.0.18' # :nodoc:
-  DATE = '2013-08-13' # :nodoc:
+  VERSION = '5.0.19' # :nodoc:
+  DATE = '2013-08-19' # :nodoc:
 
   @@installed_at_exit ||= false
   @@after_run = []
