@@ -326,7 +326,9 @@ module Minitest
     class ExitAfterFirstFail < RuntimeError; end
 
     def self.check_failures result, reporter
-      if !result.failures.empty?
+      # skip is not a failure.
+      true_fails = result.failures.reject{ |obj| obj.class == Minitest::Skip  }
+      if !true_fails.empty?
         begin
           reporter.reporters.each { |r| r.report }
         ensure
