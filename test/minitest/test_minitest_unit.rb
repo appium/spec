@@ -387,6 +387,8 @@ class TestMinitestRunner < MetaMetaMetaTestCase
       Finished in 0.00
 
       2 runs, 1 assertions, 0 failures, 0 errors, 1 skips
+
+      You have skipped tests. Run with --verbose for details.
     EOM
 
     assert_report expected
@@ -408,7 +410,6 @@ class TestMinitestRunner < MetaMetaMetaTestCase
       #<Class:0xXXX>#test_something = 0.00 s = .
       #<Class:0xXXX>#test_skip = 0.00 s = S
 
-
       Finished in 0.00
 
         1) Skipped:
@@ -416,7 +417,7 @@ class TestMinitestRunner < MetaMetaMetaTestCase
       not yet
 
       2 runs, 1 assertions, 0 failures, 0 errors, 1 skips
-    EOM
+EOM
 
     assert_report expected, %w[--seed 42 --verbose]
   end
