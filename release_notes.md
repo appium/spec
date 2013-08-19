@@ -1,3 +1,15 @@
+#### v5.0.19 2013-08-19
+
+- [7d445dd](https://github.com/bootstraponline/spec/commit/7d445ddcb46904cdd5a0b099e3d7bd082a74bd24) Release 5.0.19
+- [1c0658e](https://github.com/bootstraponline/spec/commit/1c0658e1350b8c475899e46a8a6bbf8aebea6369) Skip is not a failure
+- [47cad48](https://github.com/bootstraponline/spec/commit/47cad48b9eba6b63aa4910b7dcc664571c99c2c0) Fix tests
+- [59d438a](https://github.com/bootstraponline/spec/commit/59d438acbd227b0a83d8f9cf74f2043a4af4baa5) skip message tests [git-p4: depot-paths = "//src/minitest/dev/": change = 8896]
+- [25528b5](https://github.com/bootstraponline/spec/commit/25528b51b1f2b3939e58b85f7ba37454120d1344) + Added extra message about skipped tests, if any. Disable globally with $MT_NO_SKIP_MSG. [git-p4: depot-paths = "//src/minitest/dev/": change = 8895]
+- [3b8c252](https://github.com/bootstraponline/spec/commit/3b8c2525240d3b88e17920f3f43ddf1072e7f4e0) more of the same [git-p4: depot-paths = "//src/minitest/dev/": change = 8894]
+- [d5a1bf4](https://github.com/bootstraponline/spec/commit/d5a1bf405bbbc6269e258425bdeb5573f04ab233) + Added clarification about the use of thread local variables in expectations. (jemc) [git-p4: depot-paths = "//src/minitest/dev/": change = 8893]
+- [389767a](https://github.com/bootstraponline/spec/commit/389767ac281895da84068c0b21ce9a2d8e2275c8) Must expand_path to get proper trace results
+
+
 #### v5.0.18 2013-08-13
 
 - [60c70b0](https://github.com/bootstraponline/spec/commit/60c70b0ef6005a515086467c1af3a9faedfb4da3) Release 5.0.18
