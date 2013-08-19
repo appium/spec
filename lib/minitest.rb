@@ -187,7 +187,8 @@ module Minitest
   # @param :trace [Array<String>] files to trace
 
   def self.run_specs spec_opts={}
-    options = { :io => spec_opts.fetch(:io, $stdout) }
+    options = { :io => spec_opts.fetch(:io, $stdout),
+                :verbose => spec_opts.fetch(:verbose, false) }
     reporter = Minitest::CompositeReporter.new
     reporter << Minitest::SummaryReporter.new(options[:io], options)
     reporter.start
