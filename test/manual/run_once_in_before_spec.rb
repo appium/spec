@@ -1,5 +1,4 @@
-require 'rubygems'
-require 'spec'
+require_relative '../../lib/spec'
 
 describe 'test' do
   def run_once

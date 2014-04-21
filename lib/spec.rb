@@ -2,12 +2,10 @@
 require_relative 'minitest'
 require_relative 'minitest/spec'
 
-# patches to enable Appium spec
-
 require 'rubygems'
 require 'chronic_duration'
 
-
+# patches to enable Appium spec
 module Minitest
   # override minitest.rb __run so tests execute serially
   def self.__run reporter, options
@@ -90,39 +88,42 @@ module Minitest
     reporter.reporters.each { |r| r.report }
   end
 
-  ##
-  # Responsible for running all runnable methods in a given class,
-  # each in its own instance. Each instance is passed to the
-  # reporter to record.
+  class Runnable
+    ##
+    # Responsible for running all runnable methods in a given class,
+    # each in its own instance. Each instance is passed to the
+    # reporter to record.
 
-  def self.run reporter, options = {}
-    filter = options[:filter] || '/./'
-    filter = Regexp.new $1 if filter =~ /\/(.*)\//
+    def self.run reporter, options = {}
+      filter = options[:filter] || '/./'
+      filter = Regexp.new $1 if filter =~ /\/(.*)\//
+      io     = options.fetch(:io, $stdout)
 
-    filtered_methods = self.runnable_methods.find_all { |m|
-      filter === m || filter === "#{self}##{m}"
-    }
+      filtered_methods = self.runnable_methods.find_all { |m|
+        filter === m || filter === "#{self}##{m}"
+      }
 
-    with_info_handler reporter do
-      filtered_methods.each do |method_name|
+      with_info_handler reporter do
+        filtered_methods.each do |method_name|
 
-        method = self.new(method_name)
-        matched_name = method_name.match /test_(\d+)_/
-        if matched_name
-          test_number = matched_name[1].to_i
-          test_name = method_name.split(/_\d+_/).last
-          file_path, line_number = method.method(method_name).source_location
-          # /5/4/3/2/1/test.rb => 2/1/test.rb
-          file_path = file_path.split(File::SEPARATOR).reject(&:empty?)
-          file_path = (file_path.length >= 3 ? file_path[-3..-1] :
-              file_path).join(File::SEPARATOR)
-          # 36 = cyan, 0 = clear
-          test_output_title = "\e[36m#{test_name} | #{test_number} |" +
-              "#{file_path}:#{line_number}\e[0m"
-          io.puts test_output_title
+          method = self.new(method_name)
+          matched_name = method_name.match /test_(\d+)_/
+          if matched_name
+            test_number            = matched_name[1].to_i
+            test_name              = method_name.split(/_\d+_/).last
+            file_path, line_number = method.method(method_name).source_location
+            # /5/4/3/2/1/test.rb => 2/1/test.rb
+            file_path              = file_path.split(File::SEPARATOR).reject(&:empty?)
+            file_path              = (file_path.length >= 3 ? file_path[-3..-1] :
+                file_path).join(File::SEPARATOR)
+            # 36 = cyan, 0 = clear
+            test_output_title      = "\e[36m#{test_name} | #{test_number} | " +
+                "#{file_path}:#{line_number}\e[0m"
+            io.puts test_output_title
+          end
+
+          run_one_method self, method_name, reporter
         end
-
-        run_one_method self, method_name, reporter
       end
     end
   end
@@ -139,7 +140,7 @@ module Minitest
     def start # :nodoc:
       super
 
-      self.sync = io.respond_to? :"sync=" # stupid emacs
+      self.sync              = io.respond_to? :"sync=" # stupid emacs
       self.old_sync, io.sync = io.sync, true if self.sync
     end
 
