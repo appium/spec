@@ -8,7 +8,7 @@ require "minitest/parallel"
 
 module Minitest
   VERSION = '5.3.3' # :nodoc:
-  DATE = '2014-04-18' # :nodoc:
+  DATE = '2014-04-21' # :nodoc:
 
   @@installed_at_exit ||= false
   @@after_run = []
