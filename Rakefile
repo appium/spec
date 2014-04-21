@@ -1,3 +1,17 @@
+require 'rubygems'
+require 'hoe'
+
+Hoe.plugin :seattlerb
+
+Hoe.spec 'minitest' do
+  developer 'Ryan Davis', 'ryand-ruby@zenspider.com'
+
+  license "MIT"
+
+  self.testlib = :minitest
+end
+
+
 # from https://github.com/bootstraponline/gem_template
 # todo: publish gem_template as a gem
 
