@@ -11,7 +11,6 @@ Hoe.spec 'minitest' do
   self.testlib = :minitest
 end
 
-
 # from https://github.com/bootstraponline/gem_template
 # todo: publish gem_template as a gem
 
@@ -159,3 +158,13 @@ task :notes do
 
   File.open('release_notes.md', 'w') { |f| f.write notes.to_s.strip }
 end
+
+# Remove default minitest task
+Rake::Task[:default].clear
+
+desc 'Run tests in test_custom/'
+task :test_custom do
+  sh "ruby #{File.join(Dir.pwd, 'test_custom', 'run.rb')}"
+end
+
+task :default => :test_custom
