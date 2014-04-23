@@ -1,3 +1,11 @@
+#### v5.3.4 2014-04-22
+
+- [d9fb334](https://github.com/bootstraponline/spec/commit/d9fb334e9a5d88688b9083067d42df5fa7fdfc26) Release 5.3.4
+- [9929712](https://github.com/bootstraponline/spec/commit/9929712742dc742a30c1526637a9db5f2c6c2727) Test minitest patches
+- [87991f6](https://github.com/bootstraponline/spec/commit/87991f6cd97b5c6138325fce25f0465edba0702c) Fix method name output. Start automating manual tests
+- [87ac203](https://github.com/bootstraponline/spec/commit/87ac203d0d80902fd99344b425c1aa6f2d307a87) Add run once example
+
+
 #### v5.3.3 2014-04-21
 
 - [ccb1fd1](https://github.com/bootstraponline/spec/commit/ccb1fd1ae43f13993f24ca29dcec157ffed4b8e0) Release 5.3.3
